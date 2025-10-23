@@ -4,6 +4,13 @@ init()
 
 
 
+def verificador(a,b):
+    if a in b:
+        return a
+    else:
+        return False
+
+
 def create(nome,divida,cpf):
     with open('arquivo_devedores.txt','a') as devedores:
         devedores.write(f'{nome}, {divida}, {cpf}\n') #aqui eu transformei o que será um dicionário em uma string dentro do arquivo txt 
@@ -12,19 +19,28 @@ def create(nome,divida,cpf):
 
 def read ():
     with open ('arquivo_devedores.txt','r') as devedores:
-        linhas = devedores.readlines() 
+        linhas = devedores.readlines()
+        linhas_formatadas = [] 
         lista_devedores = []
-        leitura = linhas.read()
-        if linhas.read() != '':
-            for linha in linhas: #o objetivo desse laço é de transformar cada linha, que por enquanto são strings, em dicionários
-                auxiliar = linha.strip().split(', ') #criei uma lista auxiliar que cada elemento vai ser um campo do dicionário na linha abaixo
+        for linha in linhas:
+            texto_processado = linha.strip()
+            if texto_processado:
+                linhas_formatadas.append(texto_processado)
+        
+        if linhas_formatadas == None:
+            return lista_devedores
+        else:   
+            for linha in linhas_formatadas: 
+                auxiliar = linha.strip().split(', ')  
                 devedor = {'nome': auxiliar[0],'divida':float(auxiliar[1]),'cpf':auxiliar[2]}
                 lista_devedores.append(devedor)
             return lista_devedores
-        else:
-            print('Isso não é possível, pois não existem devedores registrados no momento.')
-            executando = menu_main()
-            return executando
+        
+
+     #else:
+      #      print(Isso não é possível, pois não existem devedores registrados no momento.)
+      #      executando = menu_main()
+       #     return executando
             
 
 
@@ -65,40 +81,41 @@ digite 3- corrijiar cpf
 >>>>>> '''))
     if menu_update == 0:
         print(f"\n{Fore.WHITE}{Back.RED}voltando para o menu principal{Back.RESET}{Fore.RESET}\n") #saindo com estilo
-
-    elif menu_update == 1:
-        indice_encontrado = search_by_name(lista_devedores)
-        if indice_encontrado != -1:
-            lista_devedores[indice_encontrado]['nome'] = input('digite o nome corretamente: ')
-        else:
-            update()
+    
+    elif len(lista_devedores) != 0:
+        if menu_update == 1:
+            indice_encontrado = search_by_name(lista_devedores)
+            if indice_encontrado != -1:
+                lista_devedores[indice_encontrado]['nome'] = input('digite o nome corretamente: ')
+            else:
+                update()
 
                
-    elif menu_update == 2:
-        indice_encontrado = search_by_name(lista_devedores)
-        if indice_encontrado != -1:
-            mudar = int(input('''
+        elif menu_update == 2:
+            indice_encontrado = search_by_name(lista_devedores)
+            if indice_encontrado != -1:
+                mudar = int(input('''
 quer aumentar ou diminuir a divida?
 digite 1- subtrair divida
 digite 2- aumentar divida
 igite 3- voltar
 >>>>>>>>>> '''))
-            if mudar in [1,2,3]:
-                if mudar == 1:
-                    pagamento = float(input('declare o valor pago: '))
-                    lista_devedores[indice_encontrado]['divida'] = lista_devedores[indice_encontrado]['divida'] - pagamento
-                    update()
-                elif mudar == 2:
-                    divida_maior = float(input('declare o acréscimo da divida: '))
-                    lista_devedores[indice_encontrado]['divida'] = lista_devedores[indice_encontrado]['divida'] + divida_maior
-                    update()
+                if mudar in [1,2,3]:
+                    if mudar == 1:
+                        pagamento = float(input('declare o valor pago: '))
+                        lista_devedores[indice_encontrado]['divida'] = lista_devedores[indice_encontrado]['divida'] - pagamento
+                        update()
+                    elif mudar == 2:
+                        divida_maior = float(input('declare o acréscimo da divida: '))
+                        lista_devedores[indice_encontrado]['divida'] = lista_devedores[indice_encontrado]['divida'] + divida_maior
+                        update()
                     
-                elif mudar == 3:
-                    update()
-            else:
-                while mudar not in [1,2,3]:
-                    print(f"{Fore.RED}entrada inválida, digite novamente{Fore.RESET}\n")
-                    mudar = int(input('''
+                    elif mudar == 3:
+                        update()
+                else:
+                    while mudar not in [1,2,3]:
+                        print(f"{Fore.RED}entrada inválida, digite novamente{Fore.RESET}\n")
+                        mudar = int(input('''
 quer aumentar ou diminuir a divida?
 digite 1- subtrair divida
 digite 2- aumentar divida
@@ -115,22 +132,22 @@ digite 3- voltar
                     elif mudar == 3:
                         update()
                                       
-        else:
-            update()
-                    
+            else:
+                update()
+                                              
             
             
-    elif menu_update == 3:
-        indice_encontrado = search_by_name(lista_devedores)
-        if indice_encontrado != -1:
-            lista_devedores[indice_encontrado]['cpf'] = input('digite o novo cpf: ')
-            update()
-        else:
-            while indice_encontrado == -1:
-                indice_encontrado = search_by_name(lista_devedores)
-                if indice_encontrado != -1:
-                    lista_devedores[indice_encontrado]['cpf'] = input('digite o novo: ')
-                    update()
+        elif menu_update == 3:
+            indice_encontrado = search_by_name(lista_devedores)
+            if indice_encontrado != -1:
+                lista_devedores[indice_encontrado]['cpf'] = input('digite o novo cpf: ')
+                update()
+            else:
+                while indice_encontrado == -1:
+                    indice_encontrado = search_by_name(lista_devedores)
+                    if indice_encontrado != -1:
+                        lista_devedores[indice_encontrado]['cpf'] = input('digite o novo: ')
+                        update()
 
     
     else:
@@ -160,10 +177,15 @@ digite 1- perdoar dívida (finalmente pagou)
 >>>>>> '''))
     if menu_delete == 0:
         print(f"\n{Fore.WHITE}{Back.RED}voltando para o menu principal{Back.RESET}{Fore.RESET}\n") #saindo com estilo
+    
 
     elif menu_delete == 1:
-        indice_lista = search_by_name(lista_devedores)
-        lista_devedores.pop(indice_lista)
+        if len(lista_devedores) != 0:
+            indice_lista = search_by_name(lista_devedores)
+            lista_devedores.pop(indice_lista)
+        else:
+            print("Não existe nenhuma conta cadastrada. Por favor, cadastre sua conta.")
+            delete()
 
     else:
         print('entrada inválida, digite novamente\n')
@@ -174,9 +196,5 @@ digite 1- perdoar dívida (finalmente pagou)
             linha = f"{devedor['nome']}, {devedor['divida']}, {devedor['cpf']}\n"
             devedores.write(linha)
             
-
-
-
-
 
 

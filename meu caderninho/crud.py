@@ -166,7 +166,7 @@ digite 1- perdoar dívida (finalmente pagou)
         lista_devedores.pop(indice_lista)
 
     else:
-        print('entrada inválida, digite novamente\n')
+        print('entrada inválida, digite novamente\na')
         delete()     
 
     with open('arquivo_devedores.txt','w') as devedores:
@@ -174,6 +174,7 @@ digite 1- perdoar dívida (finalmente pagou)
             linha = f"{devedor['nome']}, {devedor['divida']}, {devedor['cpf']}\n"
             devedores.write(linha)
             
+
 
 
 

@@ -1,11 +1,8 @@
 from colorama import init, Fore, Back
+from crud import verificador
 init()
 
-def verificador(a,b):
-    if a in b:
-        return a
-    else:
-        return False
+
 
 
 def login_menu():
@@ -80,13 +77,22 @@ def register(cpf,senha):
 
 def login_read ():
     with open ('login_admin.txt','r') as registros:
-        linhas = registros.readlines() 
+        linhas = registros.readlines()
+        linhas_formatadas = []
         lista_login = []
-        for linha in linhas: 
-            auxiliar = linha.strip().split(',')
-            login = {'cpf': int(auxiliar[0]), 'senha': auxiliar[1].strip()}
-            lista_login.append(login)
-        return lista_login
+        for linha in linhas:
+            texto_processado = linha.strip()
+            if texto_processado:
+                linhas_formatadas.append(texto_processado)
+        if linhas_formatadas == None:
+            return lista_login
+        else:
+            for linha in linhas_formatadas: 
+                auxiliar = linha.strip().split(',')
+                login = {'cpf': int(auxiliar[0]), 'senha': auxiliar[1].strip()}
+                lista_login.append(login)
+            return lista_login
+        
 
 
 
@@ -118,8 +124,7 @@ def login_search_senha(lista_login,login_pesquisa):
         return -1
             
 
-def alterar():
-    login_lista = login_read()
+def alterar(login_pesquisa):
     login_pesquisa = login_search(login_lista)
     if login_pesquisa != -1:
             login_lista[login_pesquisa]['senha'] = str(input('Digite sua nova senha: '))
@@ -148,20 +153,10 @@ def login_executar():
 2 - Alterar senha
 3 - Voltar
 >>>>>>>>>>>>> '''))
-    if entrada == 1:
-        login_pesquisa = login_search(lista_login)
-        if login_pesquisa != -1:
-            login_pesquisa_senha = login_search_senha(lista_login,login_pesquisa)
-            if login_pesquisa_senha != -1:
-                return True
-            else:
-                while login_pesquisa_senha == -1:
-                    login_pesquisa_senha = login_search_senha(lista_login,login_pesquisa)
-                    if login_pesquisa_senha != -1:
-                        return True
-                    
-        else:
-            while login_pesquisa == -1:
+    login_ver = verificador(entrada,[1,2,3])
+    if login_ver == entrada:
+        if len(lista_login) != 0:
+            if entrada == 1:
                 login_pesquisa = login_search(lista_login)
                 if login_pesquisa != -1:
                     login_pesquisa_senha = login_search_senha(lista_login,login_pesquisa)
@@ -173,11 +168,35 @@ def login_executar():
                             if login_pesquisa_senha != -1:
                                 return True
                     
-    elif entrada == 2:
-        alterar()
-        executando = login_executar()
-        return executando
+                else:
+                    while login_pesquisa == -1:
+                        login_pesquisa = login_search(lista_login)
+                        if login_pesquisa != -1:
+                            login_pesquisa_senha = login_search_senha(lista_login,login_pesquisa)
+                            if login_pesquisa_senha != -1:
+                                return True
+                            else:
+                                while login_pesquisa_senha == -1:
+                                    login_pesquisa_senha = login_search_senha(lista_login,login_pesquisa)
+                                    if login_pesquisa_senha != -1:
+                                        return True
+                    
+            elif entrada == 2:
+                alterar(login_pesquisa)
+                executando = login_executar()
+                return executando
 
+        elif entrada == 3:
+            print("Voltando para o menu...")
+            return login_menu()
+        
+        else:
+            print("Não existe nenhuma conta cadastrada. Por favor, cadastre sua conta.")
+            executando = login_executar()
+            return executando
+    else: 
+        print("Digite novamente.")
+        return login_executar()
 
 '''def login_executar():
     lista_login = login_read()

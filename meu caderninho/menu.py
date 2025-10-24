@@ -1,13 +1,11 @@
-from crud import create,delete,read,update
+from crud import verificador, create,delete,read,update
 from registro import login_menu, login_read, login_search, login_search_senha, login_executar, alterar, register, encerrar
 from colorama import init, Fore, Back
+import time
+
 init()
 
-def verificador(a,b):
-    if a in b:
-        return a
-    else:
-        return False
+
 
 def menu_main():
    entrada_menu = int(input('''
@@ -37,12 +35,14 @@ digite 2 - {Fore.RED}não{Fore.RESET}\n'''))
     res = verificador(retomando,[1,2])    
     if res == retomando:
         if retomando == 1:
-            print("saindo do menu...")
+            print(f"\n{Fore.WHITE}{Back.RED}Saindo do menu...{Back.RESET}{Fore.RESET}")
             executando = False
+            time.sleep(2)
             return executando
                 
         elif retomando == 2:
-            print('voltando para o menu')
+            print(f"\n{Fore.WHITE}{Back.GREEN}Voltando ao menu...{Back.RESET}{Fore.RESET}")
+            time.sleep(2)
             executando = True
             return executando
     else:
@@ -111,7 +111,7 @@ while executando == True:
     elif entrada_menu == 4:
         lista_devedores = read()
         for devedor in lista_devedores:
-            print(devedor)
+            print(f"\nNOME: {devedor['nome']}, CPF: {devedor['cpf']}, DIVIDA: R$ {devedor['divida']}")
     else:
         print('entrada inválida')
 

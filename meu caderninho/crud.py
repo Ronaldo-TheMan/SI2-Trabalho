@@ -1,4 +1,3 @@
-import csv
 from colorama import init, Fore, Back
 init()
 

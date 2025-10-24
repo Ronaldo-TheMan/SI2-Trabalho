@@ -1,3 +1,4 @@
+import csv
 from colorama import init, Fore, Back
 init()
 
@@ -18,7 +19,7 @@ def create(nome,divida,cpf):
 
 
 def read ():
-    with open ('arquivo_devedores.txt','r') as devedores:
+    with open('arquivo_devedores.txt','r') as devedores:
         linhas = devedores.readlines()
         linhas_formatadas = [] 
         lista_devedores = []
@@ -80,7 +81,8 @@ digite 2- alterar divida
 digite 3- corrijiar cpf
 >>>>>> '''))
     if menu_update == 0:
-        print(f"\n{Fore.WHITE}{Back.RED}voltando para o menu principal{Back.RESET}{Fore.RESET}\n") #saindo com estilo
+        print(f"\n{Fore.WHITE}{Back.RED}Voltando para o menu principal...{Back.RESET}{Fore.RESET}\n") #saindo com estilo
+        time.sleep(2)
     
     elif len(lista_devedores) != 0:
         if menu_update == 1:
@@ -154,7 +156,7 @@ digite 3- voltar
         print(f'{Fore.RED}entrada inválida{Fore.RESET}')
         update()
           
-    with open ('arquivo_devedores.txt','w') as arquivo:
+    with open('arquivo_devedores.txt','w') as arquivo:
         for devedor in lista_devedores:
            linha = f"{devedor['nome']}, {devedor['divida']}, {devedor['cpf']}\n"
            arquivo.write(linha)
@@ -176,7 +178,8 @@ digite 0- não perdoar dívida (erro de digitação)
 digite 1- perdoar dívida (finalmente pagou)
 >>>>>> '''))
     if menu_delete == 0:
-        print(f"\n{Fore.WHITE}{Back.RED}voltando para o menu principal{Back.RESET}{Fore.RESET}\n") #saindo com estilo
+        print(f"\n{Fore.WHITE}{Back.RED}Voltando para o menu principal...{Back.RESET}{Fore.RESET}\n") #saindo com estilo
+        time.sleep(2)
     
 
     elif menu_delete == 1:

@@ -1,5 +1,7 @@
 from colorama import init, Fore, Back
 from crud import verificador
+import time
+
 init()
 
 
@@ -15,8 +17,10 @@ Escolha:
 
     if login == 1:
         executando = login_executar()
+        print(f"\n{Fore.WHITE}{Back.GREEN}Iniciando o menu...{Back.RESET}{Fore.RESET}")
+        time.sleep(2)
         return executando
-        print("Iniciando o menu...")
+        
 
     elif login == 2:
         cpf = int(input("Digite seu cpf: "))
@@ -39,15 +43,18 @@ Escolha:
 def encerrar():
     retomando = int(input(f'''
 Você tem certeza?
-digite 1 - {Fore.GREEN}sim{Fore.RESET}
-digite 2 - {Fore.RED}não{Fore.RESET}\n'''))
+digite 1 - {Fore.RED}sim{Fore.RESET}
+digite 2 - {Fore.GREEN}não{Fore.RESET}\n'''))
     res = verificador(retomando,[1,2])    
     if res == retomando:
         if retomando == 1:
-            print(f"{Fore.WHITE}{Back.RED}encerrando o sistema{Back.RESET}{Fore.RESET}")
-            iniciar = input(f'caso queira iniciar novamente, digite a palavra {Fore.GREEN}iniciar{Fore.RESET}\n').strip().lower()
+            print(f"\n{Fore.WHITE}{Back.RED}Encerrando o sistema...{Back.RESET}{Fore.RESET}")
+            time.sleep(2)
+            iniciar = input(f'caso queira iniciar novamente, digite a palavra {Fore.GREEN}Iniciar{Fore.RESET}\n').strip().lower()
             if iniciar == "iniciar":
                 executando = False
+                print(f"\n{Fore.WHITE}{Back.GREEN}Iniciando novamente o sistema{Back.RESET}{Fore.RESET}")
+                time.sleep(2)
                 return executando
             else:
                 while iniciar != "iniciar":
@@ -58,8 +65,9 @@ digite 2 - {Fore.RED}não{Fore.RESET}\n'''))
                         return executando
 
         elif retomando == 2:
-            print('iniciando o programa novamente...')
+            print(f"\n{Fore.WHITE}{Back.GREEN}Iniciando novamente o sistema{Back.RESET}{Fore.RESET}")
             executando = False
+            time.sleep(2)
             return executando
     else:
         print("entrada inválida, digite novamente")
@@ -188,6 +196,7 @@ def login_executar():
 
         elif entrada == 3:
             print("Voltando para o menu...")
+            time.sleep(2)
             return login_menu()
         
         else:
@@ -198,76 +207,6 @@ def login_executar():
         print("Digite novamente.")
         return login_executar()
 
-'''def login_executar():
-    lista_login = login_read()
-    entrada = int(input(
-1 - Entrar
-2 - Alterar senha
-3 - Voltar
->>>>>>>>>>>>> ))
-    if entrada == 1:
-        cpf = int(input(Digite seu cpf: ))
-        login_pesquisa = login_search(cpf,lista_login)
-        if login_pesquisa != -1:
-            senha = input("Digite sua senha: ")
-            login_senha = login_search(senha,lista_login)
-            if login_senha != -1:
-                executando = True
-                return executando
-                print("Iniciando o menu...")
-            else:
-                while login_senha == -1:
-                    senha = input("Digite novamente sua senha: ")
-                    login_senha = login_search(senha,lista_login)
-                    if login_senha != -1:
-                        executando = True
-                        return executando
 
-        else:
-            while login_pesquisa == -1:
-                cpf = int(input("Digite novamente seu cpf: "))
-                login_pesquisa = login_search(cpf,lista_login)
-                if login_pesquisa != -1:
-                    senha = input("Digite sua senha: ")
-                    login_senha = login_search(senha,lista_login)
-                    if login_senha != -1:
-                        executando = True
-                        return executando
-                        print("Iniciando o menu...")
-                    else:
-                        while login_senha == -1:
-                            senha = input("Digite novamente sua senha: ")
-                            login_senha = login_search(senha,lista_login)
-                            if login_senha != -1:
-                                executando = True
-                                return executando
-    elif entrada == 2:
-        alterar()'''
-
-
-    
-'''lista_login = login_read()
-print(lista_login)
-executando = False
-while executando == False: 
-    login = int(input(
-#Escolha:
-#1 - Login
-#2 - Registrar-se
-#3 - Encerrar
-#>>>>>>>>>>>>>>  ))
-
-    if login == 1:
-        login_executar()
-        print("Iniciando o menu...")
-
-    elif login == 2:
-        cpf = int(input("Digite seu cpf"))
-        senha = input("Crie sua senha")
-        register(cpf,senha)
-    elif login == 3:
-        encerrando()
-    else:
-        print("entrada inválida, digite novamente.\n")'''
 
 
